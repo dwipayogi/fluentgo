@@ -1,11 +1,3 @@
-export function encodePassphrase(passphrase: string) {
-  return encodeURIComponent(passphrase);
-}
-
-export function decodePassphrase(base64String: string) {
-  return decodeURIComponent(base64String);
-}
-
 export function generateRoomId(): string {
   return `${randomString(4)}-${randomString(4)}`;
 }
