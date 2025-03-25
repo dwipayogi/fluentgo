@@ -3,17 +3,11 @@
 import { useSignIn } from "@clerk/nextjs";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Link from "next/link";
+import { CardContent, CardFooter } from "@/components/ui/card";
+import { AuthCard } from "@/components/auth/auth-card";
+import { AuthFormField } from "@/components/auth/auth-form-field";
+import { AuthLink } from "@/components/auth/auth-link";
+import { AuthOAuthButton } from "@/components/auth/auth-oauth-button";
 
 export default function SignInPage() {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -22,11 +16,13 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSignIn = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!isLoaded) return;
 
     try {
       setLoading(true);
+      setError("");
       const result = await signIn.create({
         identifier: email,
         password,
@@ -39,55 +35,79 @@ export default function SignInPage() {
       }
     } catch (err: any) {
       setError(err.errors[0]?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    if (!isLoaded) return;
+
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: "oauth_google",
+        redirectUrl: "/sso-callback",
+        redirectUrlComplete: "/dashboard",
+      });
+    } catch (err: any) {
+      console.error("Google sign in error:", err);
+      setError(err.errors?.[0]?.message || "Failed to sign in with Google");
     }
   };
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen px-4 py-12 lg:px-8">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Sign In</CardTitle>
-          <CardDescription>
-            Welcome back! Please enter your details to sign in.
-          </CardDescription>
-        </CardHeader>
-        <form onSubmit={handleSignIn} className="space-y-4">
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+      <AuthCard
+        title="Sign In"
+        description="Welcome back! Please enter your details to sign in."
+      >
+        <CardContent className="space-y-4">
+          <AuthOAuthButton provider="google" onClick={handleGoogleSignIn} />
 
-            <div className="space-y-2">
-              <Label htmlFor="username">Password</Label>
-              <Input
-                id="username"
-                placeholder="Enter your name"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
+          <div className="relative flex items-center justify-center">
+            <div className="absolute w-full border-t border-gray-300" />
+            <span className="relative bg-white dark:bg-gray-950 px-2 text-sm text-gray-500">
+              or continue with
+            </span>
+          </div>
 
-            <p className="text-sm text-center text-gray-500">
-              Don't have an account? <Link href="/sign-up" className="font-semibold hover:text-black">Sign Up</Link>
-            </p>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <AuthFormField
+              id="email"
+              label="Email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <AuthFormField
+              id="password"
+              label="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+            />
 
             {error && <div className="text-red-500 text-sm">{error}</div>}
-          </CardContent>
-          <CardFooter>
+
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Sign In..." : "Sign In"}
+              {loading ? (
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-gray-500 border-t-transparent" />
+              ) : (
+                "Sign In"
+              )}
             </Button>
-          </CardFooter>
-        </form>
-      </Card>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col gap-4">
+          <AuthLink
+            text="Don't have an account?"
+            linkText="Sign Up"
+            href="/sign-up"
+          />
+        </CardFooter>
+      </AuthCard>
     </main>
   );
 }

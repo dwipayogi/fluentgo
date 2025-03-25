@@ -1,10 +1,5 @@
 import {
   ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
 } from "@clerk/nextjs";
 import "../styles/globals.css";
 import "@livekit/components-styles";
@@ -28,7 +23,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${inter.className}`}>{children}</body>
+        <body className={`${inter.className} scroll-smooth`}>{children}</body>
       </html>
     </ClerkProvider>
   );
