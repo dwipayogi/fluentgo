@@ -62,7 +62,11 @@ export function PageClientImpl(props: {
   );
 
   return (
-    <main data-lk-theme="default" style={{ height: "100%" }}>
+    <main
+      data-lk-theme="default"
+      style={{ height: "100%" }}
+      className="bg-[#111]"
+    >
       {connectionDetails === undefined || preJoinChoices === undefined ? (
         <div style={{ display: "grid", placeItems: "center", height: "100%" }}>
           <PreJoin
