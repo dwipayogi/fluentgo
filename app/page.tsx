@@ -2,14 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import {
-  Check,
-  Globe,
-  Mic,
-  Trophy,
-  BarChart,
-} from "lucide-react";
+import { Check, Globe, Mic, Trophy, BarChart } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Page() {
@@ -52,12 +47,19 @@ export default function Page() {
               </Link>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="outline">
-                <Link href="/sign-up">Sign Up</Link>
-              </Button>
-              <Button>
-                <Link href="/sign-in">Sign In</Link>
-              </Button>
+              <SignedIn>
+                <Link href="/dashboard">
+                  <Button variant="outline">Dashboard</Button>
+                </Link>
+              </SignedIn>
+              <SignedOut>
+                <Button variant="outline">
+                  <Link href="/sign-up">Sign Up</Link>
+                </Button>
+                <Button>
+                  <Link href="/sign-in">Sign In</Link>
+                </Button>
+              </SignedOut>
             </div>
           </div>
         </nav>
@@ -66,7 +68,7 @@ export default function Page() {
       <main>
         {/* hero */}
         <section className="min-h-screen flex items-center justify-center -mt-20">
-          <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center gap-8">
+          <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center gap-8 ">
             <motion.h1
               className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-zinc-900"
               initial={{ opacity: 0, y: 20 }}
@@ -84,16 +86,22 @@ export default function Page() {
               FluentGo is an innovative language learning platform that uses AI
               to help you learn languages faster and more effectively.
             </motion.p>
+            <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.8 }}
+                >
             <Link href="/sign-in">
               <Button className="hover:cursor-pointer">Get Started</Button>
             </Link>
+            </motion.div>
           </div>
         </section>
 
         {/* Feature 1: Translation */}
         <section
           id="feature-translation"
-          className="w-full py-12 md:py-24 lg:py-32 bg-zinc-100 px-20"
+          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 px-20"
         >
           <motion.div
             className="px-4 md:px-6"
@@ -167,7 +175,7 @@ export default function Page() {
         {/* Feature 2: Pronunciation */}
         <section
           id="feature-pronunciation"
-          className="w-full py-12 md:py-24 lg:py-32 bg-zinc-50 px-20"
+          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 bg-zinc-50 px-20"
         >
           <motion.div
             className="px-4 md:px-6"
@@ -237,7 +245,7 @@ export default function Page() {
         {/* Feature 3: Gamification */}
         <section
           id="feature-gamification"
-          className="w-full py-12 md:py-24 lg:py-32 bg-zinc-100 px-20"
+          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 px-20"
         >
           <motion.div
             className="px-4 md:px-6"
@@ -309,7 +317,7 @@ export default function Page() {
         {/* Feature 4: Analytics */}
         <section
           id="feature-analytics"
-          className="w-full py-12 md:py-24 lg:py-32 bg-zinc-50 px-20"
+          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 bg-zinc-50 px-20"
         >
           <motion.div
             className="px-4 md:px-6"
@@ -378,7 +386,7 @@ export default function Page() {
         {/* CTA Section */}
         <section
           id="contact"
-          className="w-full py-12 md:py-24 lg:py-32 bg-zinc-100"
+          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32"
         >
           <motion.div
             className="px-4 md:px-6"
@@ -403,11 +411,10 @@ export default function Page() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                <Button>
-                  <span className="relative flex items-center">
-                    Get Started
-                  </span>
-                </Button>
+                <Link href="/sign-in">
+                  <Button>Get Started</Button>
+                </Link>
+
                 <Button variant="outline">View Demo</Button>
               </motion.div>
             </div>

@@ -8,8 +8,10 @@ import { AuthCard } from "@/components/auth/auth-card";
 import { AuthFormField } from "@/components/auth/auth-form-field";
 import { AuthLink } from "@/components/auth/auth-link";
 import { AuthOAuthButton } from "@/components/auth/auth-oauth-button";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
+  const router = useRouter();
   const { signIn, setActive, isLoaded } = useSignIn();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +32,7 @@ export default function SignInPage() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
+        router.push("/dashboard");
       } else {
         console.log(result);
       }
