@@ -1,7 +1,6 @@
 import { getSession } from '@auth0/nextjs-auth0';
 
 import { LogOutIcon } from "lucide-react";
-import Link from "next/link";
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -24,9 +23,9 @@ export async function NavUser() {
           </div>
         </SidebarMenuButton>
         <SidebarMenuButton className="basis-2/12 flex items-center justify-center">
-          <Link href="/api/auth/logout" className="text-muted-foreground hover:text-primary">
+          <a href="/api/auth/logout" className="text-muted-foreground hover:text-primary">
             <LogOutIcon className="size-4" />
-          </Link>
+          </a>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
