@@ -18,7 +18,7 @@ export default function LandingPage() {
         <section className="min-h-screen flex items-center justify-center -mt-20">
           <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center gap-8 ">
             <motion.h1
-              className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-zinc-900"
+              className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
@@ -29,7 +29,7 @@ export default function LandingPage() {
               variants={item}
               initial="hidden"
               animate="show"
-              className="text-lg text-zinc-800 max-w-xl"
+              className="text-lg max-w-xl"
             >
               FluentGo is an innovative language learning platform that uses AI
               to help you learn languages faster and more effectively.
@@ -66,36 +66,36 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-zinc-800 mb-4">
-                  <Globe className="h-8 w-8 text-zinc-200" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
+                  <Globe className="h-8 w-8" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-zinc-800">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   Real-time Translation
                 </h2>
-                <p className="text-zinc-700 text-lg">
+                <p className=" text-lg">
                   Break down language barriers instantly with our advanced
                   AI-powered translation system. FluentGo enables seamless
                   communication between students speaking different languages.
                 </p>
-                <ul className="space-y-2 text-zinc-700">
+                <ul className="space-y-2 ">
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>
                       Support for over 40 languages and regional dialects
                     </span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>
                       Contextual translation that understands idioms and slang
                     </span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Real-time subtitles during video conversations</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Voice-to-text and text-to-voice capabilities</span>
                   </li>
                 </ul>
@@ -107,13 +107,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
                 className="relative"
               >
-                <div className="absolute -inset-0.5 bg-zinc-500 rounded-xl opacity-20 blur-xl"></div>
+                <div className="absolute -inset-0.5 rounded-xl opacity-20 blur-xl"></div>
                 <Image
                   src="https://placehold.co/600x400"
                   width={600}
                   height={400}
                   alt="Real-time Translation Feature"
-                  className="relative mx-auto overflow-hidden rounded-xl object-cover border border-zinc-800"
+                  className="relative mx-auto overflow-hidden rounded-xl object-cover border"
                 />
               </motion.div>
             </div>
@@ -123,7 +123,7 @@ export default function LandingPage() {
         {/* Feature 2: Pronunciation */}
         <section
           id="feature-pronunciation"
-          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 bg-zinc-50 px-20"
+          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 px-20"
         >
           <motion.div
             className="px-4 md:px-6"
@@ -140,13 +140,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
                 className="relative order-last lg:order-first"
               >
-                <div className="absolute -inset-0.5 bg-zinc-500 rounded-xl opacity-20 blur-xl"></div>
+                <div className="absolute -inset-0.5 rounded-xl opacity-20 blur-xl"></div>
                 <Image
                   src="https://placehold.co/600x400"
                   width={600}
                   height={400}
                   alt="AI Pronunciation Coach Feature"
-                  className="relative mx-auto overflow-hidden rounded-xl object-cover border border-zinc-800"
+                  className="relative mx-auto overflow-hidden rounded-xl object-cover border"
                 />
               </motion.div>
               <motion.div
@@ -156,32 +156,32 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-zinc-800 mb-4">
-                  <Mic className="h-8 w-8 text-zinc-200" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
+                  <Mic className="h-8 w-8" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-zinc-800">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   AI Pronunciation Coach
                 </h2>
-                <p className="text-zinc-700 text-lg">
+                <p className=" text-lg">
                   Perfect your accent with our advanced AI pronunciation coach
                   that listens, analyzes, and provides personalized feedback in
                   real-time.
                 </p>
-                <ul className="space-y-2 text-zinc-700">
+                <ul className="space-y-2 ">
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Phoneme-level analysis of speech patterns</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Visual feedback showing pronunciation accuracy</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Personalized exercises targeting problem areas</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Native speaker reference recordings</span>
                   </li>
                 </ul>
@@ -210,34 +210,34 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-zinc-800 mb-4">
-                  <Trophy className="h-8 w-8 text-zinc-200" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
+                  <Trophy className="h-8 w-8" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-zinc-800">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   Gamified Learning
                 </h2>
-                <p className="text-zinc-700 text-lg">
+                <p className=" text-lg">
                   Transform language practice into an engaging game with our
                   gamification system designed to motivate students and make
                   learning addictive.
                 </p>
-                <ul className="space-y-2 text-zinc-700">
+                <ul className="space-y-2 ">
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>
                       Points and XP for completing language challenges
                     </span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Achievement badges for mastering new skills</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Classroom and school-wide leaderboards</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Streak rewards for consistent practice</span>
                   </li>
                 </ul>
@@ -249,13 +249,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
                 className="relative"
               >
-                <div className="absolute -inset-0.5 bg-zinc-500 rounded-xl opacity-20 blur-xl"></div>
+                <div className="absolute -inset-0.5 rounded-xl opacity-20 blur-xl"></div>
                 <Image
                   src="https://placehold.co/600x400"
                   width={600}
                   height={400}
                   alt="Gamified Learning Feature"
-                  className="relative mx-auto overflow-hidden rounded-xl object-cover border border-zinc-800"
+                  className="relative mx-auto overflow-hidden rounded-xl object-cover border"
                 />
               </motion.div>
             </div>
@@ -265,7 +265,7 @@ export default function LandingPage() {
         {/* Feature 4: Analytics */}
         <section
           id="feature-analytics"
-          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 bg-zinc-50 px-20"
+          className="max-w-7xl mx-auto py-12 md:py-24 lg:py-32 px-20"
         >
           <motion.div
             className="px-4 md:px-6"
@@ -282,13 +282,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
                 className="relative order-last lg:order-first"
               >
-                <div className="absolute -inset-0.5 bg-zinc-500 rounded-xl opacity-20 blur-xl"></div>
+                <div className="absolute -inset-0.5 rounded-xl opacity-20 blur-xl"></div>
                 <Image
                   src="https://placehold.co/600x400"
                   width={600}
                   height={400}
                   alt="Progress Tracking Feature"
-                  className="relative mx-auto overflow-hidden rounded-xl object-cover border border-zinc-800"
+                  className="relative mx-auto overflow-hidden rounded-xl object-cover border"
                 />
               </motion.div>
               <motion.div
@@ -298,31 +298,31 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-zinc-800 mb-4">
-                  <BarChart className="h-8 w-8 text-zinc-200" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
+                  <BarChart className="h-8 w-8" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-zinc-800">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   Progress Tracking
                 </h2>
-                <p className="text-zinc-700 text-lg">
+                <p className=" text-lg">
                   Gain valuable insights into student performance with
                   comprehensive analytics dashboards designed for educators.
                 </p>
-                <ul className="space-y-2 text-zinc-700">
+                <ul className="space-y-2 ">
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Individual student progress reports</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Pronunciation accuracy trends over time</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Vocabulary and grammar mastery tracking</span>
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5 text-zinc-500" />
+                    <Check className="mr-2 h-5 w-5" />
                     <span>Customizable learning path recommendations</span>
                   </li>
                 </ul>
@@ -345,10 +345,10 @@ export default function LandingPage() {
           >
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-zinc-800">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                   Transform Your Language Classroom
                 </h2>
-                <p className="max-w-[600px] text-zinc-700 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                <p className="max-w-[600px]  md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Join hundreds of schools already using FluentGo to create
                   engaging, effective language learning experiences.
                 </p>
@@ -372,7 +372,7 @@ export default function LandingPage() {
 
       {/* footer */}
 
-      <footer className="bg-zinc-50 border-t text-zinc-800 py-4">
+      <footer className="border-t py-4">
         <div className="container mx-auto text-center">
           <p>
             &copy; {new Date().getFullYear()} FluentGo. All rights reserved.

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { BookOpen, Home, SettingsIcon, Trophy, Video } from "lucide-react"
+import Link from "next/link"
 
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
@@ -18,29 +19,29 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/dashboard",
       icon: Home,
     },
     {
       title: "Learning",
-      url: "#",
+      url: "/dashboard/learning",
       icon: BookOpen,
     },
     {
       title: "Conference",
-      url: "#",
+      url: "/dashboard/conference",
       icon: Video,
     },
     {
-      title: "leaderboard",
-      url: "#",
+      title: "Leaderboard",
+      url: "/dashboard/leaderboard",
       icon: Trophy,
     },
   ],
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/dashboard/settings",
       icon: SettingsIcon,
     },
   ],
@@ -56,9 +57,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <Link href="/">
                 <span className="text-base font-semibold">FluentGo</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

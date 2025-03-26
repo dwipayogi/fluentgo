@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "../styles/globals.css";
 import "@livekit/components-styles";
@@ -20,8 +21,17 @@ export default function RootLayout({
 }) {
   return (
     <UserProvider>
-      <html lang="en">
-        <body className={`${inter.className} scroll-smooth`}>{children}</body>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${inter.className} scroll-smooth`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
       </html>
     </UserProvider>
   );
