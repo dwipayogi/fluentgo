@@ -1,6 +1,4 @@
-import {
-  ClerkProvider,
-} from "@clerk/nextjs";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "../styles/globals.css";
 import "@livekit/components-styles";
 import "@livekit/components-styles/prefabs";
@@ -21,10 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <UserProvider>
       <html lang="en">
         <body className={`${inter.className} scroll-smooth`}>{children}</body>
       </html>
-    </ClerkProvider>
+    </UserProvider>
   );
 }

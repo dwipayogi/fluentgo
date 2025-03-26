@@ -1,19 +1,18 @@
-
-import { currentUser } from "@clerk/nextjs/server";
+import { getSession } from "@auth0/nextjs-auth0";
 
 export default async function Dashboard() {
-  const user = await currentUser();
-
+  const session = await getSession();
+  const user = session?.user;
+  
   return (
-    <div className="h-screen p-4">
-      <h1 className="text-2xl font-extrabold">Dashboard</h1>
+    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div>
-        <p>Username : {user?.username}</p>
-        {user?.emailAddresses.map((email) => (
-          <div key={email.id}>
-            <p>Email: {email.emailAddress}</p>
-          </div>
-        ))}
+        <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+          Welcome back, {user?.name}!
+        </h2>
+        <p className="text-zinc-600 dark:text-zinc-400">
+          Continue your language learning journey
+        </p>
       </div>
     </div>
   );

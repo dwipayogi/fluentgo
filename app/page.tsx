@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Check, Globe, Mic, Trophy, BarChart } from "lucide-react";
 import { motion } from "framer-motion";
@@ -47,19 +46,12 @@ export default function Page() {
               </Link>
             </div>
             <div className="flex items-center gap-4">
-              <SignedIn>
-                <Link href="/dashboard">
-                  <Button variant="outline">Dashboard</Button>
-                </Link>
-              </SignedIn>
-              <SignedOut>
-                <Button variant="outline">
-                  <Link href="/sign-up">Sign Up</Link>
-                </Button>
-                <Button>
-                  <Link href="/sign-in">Sign In</Link>
-                </Button>
-              </SignedOut>
+              <Button variant="outline">
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
+              <Button>
+                <Link href="/api/auth/login">Sign In</Link>
+              </Button>
             </div>
           </div>
         </nav>
@@ -87,13 +79,13 @@ export default function Page() {
               to help you learn languages faster and more effectively.
             </motion.p>
             <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
-                >
-            <Link href="/sign-in">
-              <Button className="hover:cursor-pointer">Get Started</Button>
-            </Link>
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+            >
+              <Link href="/sign-in">
+                <Button className="hover:cursor-pointer">Get Started</Button>
+              </Link>
             </motion.div>
           </div>
         </section>

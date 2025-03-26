@@ -1,54 +1,75 @@
-import { Home, Settings } from "lucide-react";
-import Link from "next/link";
+import * as React from "react"
+import { BookOpen, Home, SettingsIcon, Trophy, Video } from "lucide-react"
+
+import { NavMain } from "@/components/nav-main"
+import { NavSecondary } from "@/components/nav-secondary"
+import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar"
 
-// Menu items.
-const items = [
-  {
-    title: "Dashboard",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+const data = {
+  navMain: [
+    {
+      title: "Dashboard",
+      url: "#",
+      icon: Home,
+    },
+    {
+      title: "Learning",
+      url: "#",
+      icon: BookOpen,
+    },
+    {
+      title: "Conference",
+      url: "#",
+      icon: Video,
+    },
+    {
+      title: "leaderboard",
+      url: "#",
+      icon: Trophy,
+    },
+  ],
+  navSecondary: [
+    {
+      title: "Settings",
+      url: "#",
+      icon: SettingsIcon,
+    },
+  ],
+}
 
-export function AppSidebar() {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar>
+    <Sidebar collapsible="offcanvas" {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
+              <a href="#">
+                <span className="text-base font-semibold">FluentGo</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            <Link href="/" className="text-lg text-black font-bold">FluentGo</Link>
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <NavMain items={data.navMain} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser/>
+      </SidebarFooter>
     </Sidebar>
-  );
+  )
 }
