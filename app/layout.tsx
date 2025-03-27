@@ -1,10 +1,10 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "../styles/globals.css";
 import "@livekit/components-styles";
 import "@livekit/components-styles/prefabs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { UserProvider } from "@/context/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,19 +20,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <UserProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.className} scroll-smooth`}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </body>
-      </html>
-    </UserProvider>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <body className={`${inter.className}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+        >
+          <UserProvider>{children}</UserProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
