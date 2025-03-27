@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Check, Globe, Mic, Trophy, BarChart } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function LandingPage() {
   const item = {
@@ -39,9 +40,9 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <a href="/api/auth/login">
+              <Link href="/signup">
                 <Button className="hover:cursor-pointer">Get Started</Button>
-              </a>
+              </Link>
             </motion.div>
           </div>
         </section>
@@ -359,9 +360,9 @@ export default function LandingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                <a href="/api/auth/login">
+                <Link href="/signup">
                   <Button>Get Started</Button>
-                </a>
+                </Link>
 
                 <Button variant="outline">View Demo</Button>
               </motion.div>

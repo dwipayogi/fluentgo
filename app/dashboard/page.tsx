@@ -1,15 +1,14 @@
-import { getSession } from "@auth0/nextjs-auth0";
 import SectionCards from "@/components/dashboard/section-card";
+import { getUserFromCookie } from '@/lib/auth'
 
 export default async function Dashboard() {
-  const session = await getSession();
-  const user = session?.user;
+  const user = getUserFromCookie()
 
   return (
     <div>
       <div>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-          Welcome back, {user?.name}!
+          Welcome back, {user?.username}!
         </h2>
         <p className="text-zinc-600 dark:text-zinc-400">
           Continue your language learning journey

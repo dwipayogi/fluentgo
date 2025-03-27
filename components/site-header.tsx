@@ -13,7 +13,7 @@ export function SiteHeader() {
         />
         <div className="flex justify-between items-center w-full">
           <h1 className="text-base font-medium">Dashboard</h1>
-          <ModeToggle />
+          {/* <ModeToggle /> */}
         </div>
       </div>
     </header>
