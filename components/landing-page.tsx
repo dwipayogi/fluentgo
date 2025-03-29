@@ -17,14 +17,14 @@ export default function LandingPage() {
       <main>
         {/* hero */}
         <section className="min-h-screen flex items-center justify-center -mt-20">
-          <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center gap-8 ">
+          <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center gap-8">
             <motion.h1
               className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              Revolutionize Language Learning in Your Classroom
+              Revolutionize <span className="text-indigo-500">Language Learning</span> in Your Classroom
             </motion.h1>
             <motion.p
               variants={item}
@@ -41,7 +41,7 @@ export default function LandingPage() {
               transition={{ delay: 0.6, duration: 0.8 }}
             >
               <Link href="/signup">
-                <Button className="hover:cursor-pointer">Get Started</Button>
+                <Button className="hover:cursor-pointer bg-indigo-500 hover:bg-indigo-400">Get Started</Button>
               </Link>
             </motion.div>
           </div>
@@ -68,9 +68,9 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
-                  <Globe className="h-8 w-8" />
+                  <Globe className="h-8 w-8 text-indigo-500" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-indigo-500">
                   Real-time Translation
                 </h2>
                 <p className=" text-lg">
@@ -158,9 +158,9 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
-                  <Mic className="h-8 w-8" />
+                  <Mic className="h-8 w-8 text-indigo-500" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-indigo-500">
                   AI Pronunciation Coach
                 </h2>
                 <p className=" text-lg">
@@ -212,9 +212,9 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
-                  <Trophy className="h-8 w-8" />
+                  <Trophy className="h-8 w-8 text-indigo-500" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-indigo-500">
                   Gamified Learning
                 </h2>
                 <p className=" text-lg">
@@ -300,9 +300,9 @@ export default function LandingPage() {
                 transition={{ duration: 0.8 }}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
-                  <BarChart className="h-8 w-8" />
+                  <BarChart className="h-8 w-8 text-indigo-500" />
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-indigo-500">
                   Progress Tracking
                 </h2>
                 <p className=" text-lg">
@@ -346,7 +346,7 @@ export default function LandingPage() {
           >
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+                <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-indigo-500">
                   Transform Your Language Classroom
                 </h2>
                 <p className="max-w-[600px]  md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -361,10 +361,10 @@ export default function LandingPage() {
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <Link href="/signup">
-                  <Button>Get Started</Button>
+                  <Button className="bg-indigo-500 hover:bg-indigo-400">Get Started</Button>
                 </Link>
 
-                <Button variant="outline">View Demo</Button>
+                <Button variant="outline" className="text-indigo-500 hover:text-indigo-500 bg-indigo-50 hover:bg-indigo-100 border-indigo-500 dark:border-indigo-500 dark:bg-zinc-950">View Demo</Button>
               </motion.div>
             </div>
           </motion.div>

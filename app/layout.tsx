@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} bg-indigo-50 dark:bg-zinc-950 transition-colors duration-300`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

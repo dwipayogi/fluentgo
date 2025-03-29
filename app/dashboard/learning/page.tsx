@@ -17,49 +17,37 @@ export default function Learning() {
       {/* Points Summary */}
       <div className="grid gap-6 md:grid-cols-3 mb-6">
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle>Total Points</CardTitle>
+          <CardHeader>
+            <CardTitle className="text-indigo-500">Total Points</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
-              <GraduationCap className="h-8 w-8  mr-3" />
-              <div className="text-3xl font-bold ">2,450</div>
-            </div>
-            <div className="mt-2 text-sm ">
-              <span className="text-green-500 dark:text-green-400">+120</span>{" "}
-              points this week
+              <GraduationCap className="h-8 w-8 mr-3 text-indigo-500" />
+              <div className="text-3xl font-bold text-indigo-500">2,450</div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle>Speaking Points</CardTitle>
+          <CardHeader>
+            <CardTitle className="text-indigo-500">Speaking Points</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
-              <Mic className="h-8 w-8  mr-3" />
-              <div className="text-3xl font-bold ">1,280</div>
-            </div>
-            <div className="mt-2 text-sm ">
-              <span className="text-green-500 dark:text-green-400">+75</span>{" "}
-              points this week
+              <Mic className="h-8 w-8  mr-3 text-indigo-500" />
+              <div className="text-3xl font-bold text-indigo-500">1,280</div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle>Listening Points</CardTitle>
+          <CardHeader>
+            <CardTitle className="text-indigo-500">Listening Points</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
-              <Book className="h-8 w-8  mr-3" />
-              <div className="text-3xl font-bold ">1,170</div>
-            </div>
-            <div className="mt-2 text-sm ">
-              <span className="text-green-500 dark:text-green-400">+45</span>{" "}
-              points this week
+              <Book className="h-8 w-8  mr-3 text-indigo-500" />
+              <div className="text-3xl font-bold text-indigo-500">1,170</div>
             </div>
           </CardContent>
         </Card>
@@ -82,14 +70,23 @@ export default function Learning() {
                   <div className="text-sm  mt-1">Test Description</div>
                 </div>
                 <div>
-                  <Badge variant="outline">Speaking</Badge>
-                  <Badge variant="outline">Easy</Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-green-100 dark:bg-zinc-800 border-green-500 text-green-500"
+                  >
+                    Easy
+                  </Badge>
                 </div>
               </div>
               <div className="mt-3 flex justify-between items-center">
-                <Button size="sm">
-                  <Link href="">Start Practice</Link>
-                </Button>
+                <Link href="">
+                  <Button
+                    size="sm"
+                    className="bg-indigo-500 hover:bg-indigo-400"
+                  >
+                    Start Practice
+                  </Button>
+                </Link>
               </div>
             </div>
 
@@ -100,14 +97,23 @@ export default function Learning() {
                   <div className="text-sm  mt-1">Test Description</div>
                 </div>
                 <div>
-                  <Badge variant="outline">Listening</Badge>
-                  <Badge variant="outline">Hard</Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-red-100 dark:bg-zinc-800 border-red-500 text-red-500"
+                  >
+                    Hard
+                  </Badge>
                 </div>
               </div>
               <div className="mt-3 flex justify-between items-center">
-                <Button size="sm">
-                  <Link href="">Start Practice</Link>
-                </Button>
+                <Link href="">
+                  <Button
+                    size="sm"
+                    className="bg-indigo-500 hover:bg-indigo-400"
+                  >
+                    Start Practice
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -142,7 +148,7 @@ export default function Learning() {
         <CardFooter>
           <Button
             variant="ghost"
-            className="w-full text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+            className="w-full text-indigo-500 hover:text-indigo-500 hover:bg-indigo-100/50 dark:hover:bg-indigo-800/50"
           >
             <Link href="">View Complete History</Link>
             <ChevronRight className="ml-1 h-4 w-4" />

@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
-        <main className="w-full p-8">{children}</main>
+        <main className="w-full min-h-screen p-8 bg-indigo-50 dark:bg-zinc-950">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

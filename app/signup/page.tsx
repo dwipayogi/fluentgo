@@ -46,7 +46,7 @@ export default function SignUpPage() {
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
-          <h1 className="text-3xl font-bold text-center">FluentGo</h1>
+          <h1 className="text-3xl font-bold text-center text-indigo-500">FluentGo</h1>
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl text-center">Sign Up</CardTitle>
@@ -89,7 +89,7 @@ export default function SignUpPage() {
                   />
                   {error && <p className="text-red-500 text-sm">{error}</p>}
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full bg-indigo-500 hover:bg-indigo-400" disabled={loading}>
                   {loading ? (
                   <div className="flex items-center justify-center gap-2">
                     <svg className="animate-spin h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -104,7 +104,7 @@ export default function SignUpPage() {
                 </Button>
                 <div className="mt-4 text-center text-sm">
                   Already have an account?{" "}
-                  <Link href="/signin" className="underline underline-offset-4">
+                  <Link href="/signin" className="underline underline-offset-4 text-indigo-500 hover:text-indigo-700">
                     Sign In
                   </Link>
                 </div>

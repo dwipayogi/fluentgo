@@ -27,7 +27,7 @@ export default function Leaderboard() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="total" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-3 bg-indigo-400 dark:bg-indigo-600">
               <TabsTrigger value="total">Total Points</TabsTrigger>
               <TabsTrigger value="speaking">Speaking</TabsTrigger>
               <TabsTrigger value="listening">Listening</TabsTrigger>
