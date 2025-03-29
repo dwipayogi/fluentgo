@@ -19,7 +19,7 @@ export default function SectionCards() {
           <CardDescription>Your language learning progress</CardDescription>
         </CardHeader>
         <CardContent>
-        <div className="space-y-6">
+          <div className="space-y-6">
             <RoomInput />
             <div className="grid lg:grid-cols-2 gap-4">
               <div className="gap-4 grid">

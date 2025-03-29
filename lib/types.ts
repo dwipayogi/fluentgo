@@ -21,3 +21,13 @@ export type ConnectionDetails = {
   participantName: string;
   participantToken: string;
 };
+
+export type Room = {
+  id: number;
+  user_id: number;
+  name: string;
+  description?: string;
+  password?: string;
+  started_at: Date;
+  ended_at: Date;
+}
