@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "FluentGo - Video Conferencing Web",
   description:
-    "FluentGo is a video conferencing web app built using LiveKit and Next.js.",
+    "FluentGo is a video conferencing web app for language learning. It provides a platform for users to practice speaking and listening skills in real-time with AI-powered mentor.",
 };
 
 export default function RootLayout({
