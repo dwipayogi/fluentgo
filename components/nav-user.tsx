@@ -3,9 +3,11 @@ import { LogOutIcon } from "lucide-react";
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 export function NavUser() {
   const { user } = useUser();
+  const router = useRouter();
 
   const handleLogout = async () => {
     const res = await fetch("/api/auth/logout", {
@@ -14,7 +16,7 @@ export function NavUser() {
     const data = await res.json();
     if (res.ok) {
       console.log(data.message); // Logout successful
-      window.location.href = "/signin"; // Redirect to sign-in page
+      router.push("/"); // Redirect to sign-in page
     } else {
       console.error(data.message); // Handle error
     }
