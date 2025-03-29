@@ -4,7 +4,7 @@ import sql from "@/lib/db";
 
 export async function getUserPoint(userId: number) {
   const result = await sql`SELECT * FROM users WHERE id = ${userId}`;
-  return result;
+  return result.length > 0 ? result[0] : null;
 }
 
 export async function updateUserListeningPoints(

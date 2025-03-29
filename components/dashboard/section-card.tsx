@@ -15,7 +15,29 @@ import Link from "next/link";
 
 export default async function SectionCards() {
   const user = getUserFromCookie();
-  const data = await getUserPoint(Number(user?.id!));
+  const userData = await getUserPoint(Number(user?.id!));
+
+  // Handle case when userData is null or undefined
+  if (!userData) {
+    return (
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card className="col-span-3">
+          <CardHeader>
+            <CardTitle>Experience Overview</CardTitle>
+            <CardDescription>Your language learning progress</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-4">User data not found</div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Access the data directly since getUserPoint now returns the first row
+  const speakingPoints = userData.speaking_point || 0;
+  const listeningPoints = userData.listening_point || 0;
+  const totalPoints = speakingPoints + listeningPoints;
 
   return (
     <div className="grid gap-6 md:grid-cols-3">
@@ -31,11 +53,11 @@ export default async function SectionCards() {
               <div className="gap-4 grid">
                 <div className="rounded-lg border p-4">
                   <div className="text-xs mb-1">Total Points</div>
-                  <div className="text-2xl font-bold">{data[0].speaking_point + data[0].listening_point}</div>
+                  <div className="text-2xl font-bold">{totalPoints}</div>
                 </div>
                 <div className="rounded-lg border p-4">
                   <div className="text-xs mb-1">Speaking Points</div>
-                  <div className="text-2xl font-bold mb-2">{data[0].speaking_point}</div>
+                  <div className="text-2xl font-bold mb-2">{speakingPoints}</div>
                   <Link href="/dashboard/learning">
                     <Button className="bg-indigo-500 hover:bg-indigo-400 w-fit">
                       Continue Learning
@@ -45,7 +67,7 @@ export default async function SectionCards() {
                 <div className="rounded-lg border p-4 flex flex-col justify-between">
                   <div>
                     <div className="text-xs mb-1">Listening Points</div>
-                    <div className="text-2xl font-bold mb-2">{data[0].listening_point}</div>
+                    <div className="text-2xl font-bold mb-2">{listeningPoints}</div>
                   </div>
                   <Link href="/dashboard/learning">
                     <Button className="bg-indigo-500 hover:bg-indigo-400 w-fit">
