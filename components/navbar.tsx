@@ -48,7 +48,7 @@ export default function Navbar() {
             <ModeToggle />
             {!loading && (
               user ? (
-              <Button variant="outline">
+              <Button variant="outline" className="bg-indigo-50 border-indigo-500 text-indigo-500 hover:bg-indigo-100 hover:text-indigo-500 dark:bg-zinc-950 dark:border-indigo-500 dark:text-indigo-500 dark:hover:bg-indigo-500/20">
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
               ) : (

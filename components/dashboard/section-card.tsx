@@ -16,27 +16,8 @@ import Link from "next/link";
 export default async function SectionCards() {
   const user = getUserFromCookie();
   const userData = await getUserPoint(Number(user?.id!));
-
-  // Handle case when userData is null or undefined
-  if (!userData) {
-    return (
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Experience Overview</CardTitle>
-            <CardDescription>Your language learning progress</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-center py-4">User data not found</div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  // Access the data directly since getUserPoint now returns the first row
-  const speakingPoints = userData.speaking_point || 0;
-  const listeningPoints = userData.listening_point || 0;
+  const speakingPoints = userData.speaking_point;
+  const listeningPoints = userData.listening_point;
   const totalPoints = speakingPoints + listeningPoints;
 
   return (

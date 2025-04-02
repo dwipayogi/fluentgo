@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { GraduationCap, Mic, Book, ChevronRight } from "lucide-react";
+import { getNextUnansweredQuestion } from "@/actions/learn-action";
+import { getUserFromCookie } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +13,17 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-export default function Learning() {
+export default async function Learning() {
+  const user = getUserFromCookie();
+  const listeningQuestion = await getNextUnansweredQuestion(
+    Number(user?.id),
+    "listening"
+  );
+  const speakingQuestion = await getNextUnansweredQuestion(
+    Number(user?.id),
+    "speaking"
+  );
+
   return (
     <main>
       {/* Points Summary */}
@@ -70,16 +82,34 @@ export default function Learning() {
                   <div className="text-sm  mt-1">Test Description</div>
                 </div>
                 <div>
-                  <Badge
-                    variant="outline"
-                    className="bg-green-100 dark:bg-zinc-800 border-green-500 text-green-500"
-                  >
-                    Easy
-                  </Badge>
+                  {speakingQuestion?.difficulty === "Easy" && (
+                    <Badge
+                      variant="outline"
+                      className="bg-green-100 dark:bg-zinc-800 border-green-500 text-green-500"
+                    >
+                      {speakingQuestion?.difficulty}
+                    </Badge>
+                  )}
+                  {speakingQuestion?.difficulty === "Medium" && (
+                    <Badge
+                      variant="outline"
+                      className="bg-orange-100 dark:bg-zinc-800 border-orange-500 text-orange-500"
+                    >
+                      {speakingQuestion?.difficulty}
+                    </Badge>
+                  )}
+                  {speakingQuestion?.difficulty === "Hard" && (
+                    <Badge
+                      variant="outline"
+                      className="bg-red-100 dark:bg-zinc-800 border-red-500 text-red-500"
+                    >
+                      {speakingQuestion?.difficulty}
+                    </Badge>
+                  )}
                 </div>
               </div>
               <div className="mt-3 flex justify-between items-center">
-                <Link href="">
+                <Link href={`/learning/speaking/${speakingQuestion?.id}`}>
                   <Button
                     size="sm"
                     className="bg-indigo-500 hover:bg-indigo-400"
@@ -97,16 +127,34 @@ export default function Learning() {
                   <div className="text-sm  mt-1">Test Description</div>
                 </div>
                 <div>
-                  <Badge
-                    variant="outline"
-                    className="bg-red-100 dark:bg-zinc-800 border-red-500 text-red-500"
-                  >
-                    Hard
-                  </Badge>
+                  {speakingQuestion?.difficulty === "Easy" && (
+                    <Badge
+                      variant="outline"
+                      className="bg-green-100 dark:bg-zinc-800 border-green-500 text-green-500"
+                    >
+                      {speakingQuestion?.difficulty}
+                    </Badge>
+                  )}
+                  {speakingQuestion?.difficulty === "Medium" && (
+                    <Badge
+                      variant="outline"
+                      className="bg-orange-100 dark:bg-zinc-800 border-orange-500 text-orange-500"
+                    >
+                      {speakingQuestion?.difficulty}
+                    </Badge>
+                  )}
+                  {speakingQuestion?.difficulty === "Hard" && (
+                    <Badge
+                      variant="outline"
+                      className="bg-red-100 dark:bg-zinc-800 border-red-500 text-red-500"
+                    >
+                      {speakingQuestion?.difficulty}
+                    </Badge>
+                  )}
                 </div>
               </div>
               <div className="mt-3 flex justify-between items-center">
-                <Link href="">
+                <Link href={`/learning/listening/${listeningQuestion?.id}`}>
                   <Button
                     size="sm"
                     className="bg-indigo-500 hover:bg-indigo-400"

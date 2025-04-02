@@ -1,6 +1,3 @@
-"use client";
-
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,9 +6,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, Clock, Video } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
+import { getRooms, joinRoom } from "@/actions/room-actions";
+import CreateMeet from "@/components/conference/create-meet";
 
-export default function ConferencePage() {
+export default async function ConferencePage() {
+  const rooms = await getRooms();
+
+  async function handleJoinRoom({
+    name,
+    password,
+  }: {
+    name: string;
+    password: string;
+  }) {
+    await joinRoom(name, password);
+  }
+
   return (
     <main>
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
@@ -22,75 +33,55 @@ export default function ConferencePage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Today's Classes */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Spanish Intermediate</CardTitle>
-            <CardDescription>with Maria (Native Speaker)</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <Calendar className="mr-2 h-4 w-4" />
-                <span>Today</span>
-              </div>
-              <div className="flex items-center">
-                <Clock className="mr-2 h-4 w-4" />
-                <span>3:00 PM - 3:45 PM</span>
-              </div>
-              <div className="text-sm  mt-2">
-                <p>
-                  Focus: Conversation practice with emphasis on past tense verbs
-                </p>
-              </div>
-              <Button className="w-full bg-indigo-500 hover:bg-indigo-400">
-                <Link href="/dashboard/conference/join">Join Class</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Render rooms from database */}
+        {rooms.map((room) => {
+          // Format dates for display
+          const startDate = new Date(room.started_at);
+          const endDate = new Date(room.ended_at);
+          const isToday =
+            startDate.toDateString() === new Date().toDateString();
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Pronunciation Workshop</CardTitle>
-            <CardDescription>with Carlos (Native Speaker)</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center">
-                <Calendar className="mr-2 h-4 w-4" />
-                <span>Today</span>
-              </div>
-              <div className="flex items-center">
-                <Clock className="mr-2 h-4 w-4" />
-                <span>5:30 PM - 6:15 PM</span>
-              </div>
-              <div className="text-sm  mt-2">
-                <p>
-                  Focus: Mastering the Spanish 'r' sound and difficult
-                  consonants
-                </p>
-              </div>
-              <Button className="w-full bg-indigo-500 hover:bg-indigo-400">
-                <Link href="/dashboard/conference/join">Join Class</Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          const formatTime = (date: Date) => {
+            return date.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+          };
 
-        {/* Find More Classes Card */}
-        <Card className=" flex flex-col justify-center items-center p-6">
-          <div className="rounded-full border p-4">
-            <Video className="h-8 w-8" />
-          </div>
-          <h3 className="text-lg font-medium">Create New Meeting</h3>
-          <p className=" text-center">
-            Create a new meeting for your language practice sessions.
-          </p>
-          <Button className="text-indigo-500 hover:text-indigo-500 hover:bg-indigo-50 border-indigo-500 dark:border-indigo-500 dark:bg-zinc-900 w-full" variant="outline">
-            <Link href="/rooms/uaisbf-asdbiuas">Find Class</Link>
-          </Button>
-        </Card>
+          return (
+            <Card key={room.id}>
+              <CardHeader>
+                <CardTitle>{room.name}</CardTitle>
+                <CardDescription>{room.creator_name}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    <span>
+                      {isToday ? "Today" : startDate.toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="mr-2 h-4 w-4" />
+                    <span>
+                      {formatTime(startDate)} - {formatTime(endDate)}
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <span>Focus: {room.description}</span>
+                  </div>
+                  <Button className="w-full bg-indigo-500 hover:bg-indigo-400">
+                    Join Meeting
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
+
+        {/* Create New Meeting Card */}
+        <CreateMeet />
       </div>
     </main>
   );
