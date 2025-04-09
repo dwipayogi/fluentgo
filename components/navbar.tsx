@@ -41,7 +41,7 @@ export default function Navbar() {
               href="#feature-analytics"
               className="text-sm font-medium transition-colors hover:text-indigo-400"  
             >
-              Analytics
+              Tracking
             </Link>
           </div>
           <div className="flex items-center gap-4">

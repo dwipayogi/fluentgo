@@ -74,7 +74,6 @@ export default async function Leaderboard() {
                           <div className="text-sm font-bold">{index + 1}</div>
                         )}
                       </div>
-                      <div className="mr-4 text-lg font-bold ">{index + 1}</div>
                       <div className="flex items-center">
                         <div className="h-10 w-10 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center mr-3">
                           <User className="h-5 w-5 text-zinc-600 dark:text-zinc-300" />

@@ -24,7 +24,9 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              Revolutionize <span className="text-indigo-500">Language Learning</span> in Your Classroom
+              Revolutionize{" "}
+              <span className="text-indigo-500">Language Learning</span> in Your
+              Classroom
             </motion.h1>
             <motion.p
               variants={item}
@@ -41,7 +43,9 @@ export default function LandingPage() {
               transition={{ delay: 0.6, duration: 0.8 }}
             >
               <Link href="/signup">
-                <Button className="hover:cursor-pointer bg-indigo-500 hover:bg-indigo-400">Get Started</Button>
+                <Button className="hover:cursor-pointer bg-indigo-500 hover:bg-indigo-400">
+                  Get Started
+                </Button>
               </Link>
             </motion.div>
           </div>
@@ -81,9 +85,7 @@ export default function LandingPage() {
                 <ul className="space-y-2 ">
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
-                    <span>
-                      Support for over 40 languages and regional dialects
-                    </span>
+                    <span>Instant translation of spoken and written text</span>
                   </li>
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
@@ -94,10 +96,6 @@ export default function LandingPage() {
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
                     <span>Real-time subtitles during video conversations</span>
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5" />
-                    <span>Voice-to-text and text-to-voice capabilities</span>
                   </li>
                 </ul>
               </motion.div>
@@ -181,10 +179,6 @@ export default function LandingPage() {
                     <Check className="mr-2 h-5 w-5" />
                     <span>Personalized exercises targeting problem areas</span>
                   </li>
-                  <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5" />
-                    <span>Native speaker reference recordings</span>
-                  </li>
                 </ul>
               </motion.div>
             </div>
@@ -225,13 +219,7 @@ export default function LandingPage() {
                 <ul className="space-y-2 ">
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
-                    <span>
-                      Points and XP for completing language challenges
-                    </span>
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5" />
-                    <span>Achievement badges for mastering new skills</span>
+                    <span>Points for completing language challenges</span>
                   </li>
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
@@ -307,12 +295,12 @@ export default function LandingPage() {
                 </h2>
                 <p className=" text-lg">
                   Gain valuable insights into student performance with
-                  comprehensive analytics dashboards designed for educators.
+                  comprehensive analytics dashboard.
                 </p>
                 <ul className="space-y-2 ">
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
-                    <span>Individual student progress reports</span>
+                    <span>Give detailed progress reports</span>
                   </li>
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
@@ -321,10 +309,6 @@ export default function LandingPage() {
                   <li className="flex items-center">
                     <Check className="mr-2 h-5 w-5" />
                     <span>Vocabulary and grammar mastery tracking</span>
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="mr-2 h-5 w-5" />
-                    <span>Customizable learning path recommendations</span>
                   </li>
                 </ul>
               </motion.div>
@@ -347,11 +331,11 @@ export default function LandingPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl text-indigo-500">
-                  Transform Your Language Classroom
+                  Transform Your Language Learning
                 </h2>
                 <p className="max-w-[600px]  md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Join hundreds of schools already using FluentGo to create
-                  engaging, effective language learning experiences.
+                  Use FluentGo to create engaging, effective language learning
+                  experiences.
                 </p>
               </div>
               <motion.div
@@ -361,10 +345,17 @@ export default function LandingPage() {
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <Link href="/signup">
-                  <Button className="bg-indigo-500 hover:bg-indigo-400">Get Started</Button>
+                  <Button className="bg-indigo-500 hover:bg-indigo-400">
+                    Get Started
+                  </Button>
                 </Link>
 
-                <Button variant="outline" className="text-indigo-500 hover:text-indigo-500 bg-indigo-50 hover:bg-indigo-100 border-indigo-500 dark:border-indigo-500 dark:bg-zinc-950">View Demo</Button>
+                <Button
+                  variant="outline"
+                  className="text-indigo-500 hover:text-indigo-500 bg-indigo-50 hover:bg-indigo-100 border-indigo-500 dark:border-indigo-500 dark:bg-zinc-950"
+                >
+                  View Demo
+                </Button>
               </motion.div>
             </div>
           </motion.div>

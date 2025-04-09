@@ -8,22 +8,18 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { month: "8 May", accuracy: 87 },
+  { month: "9 May", accuracy: 60 },
+  { month: "10 May", accuracy: 81 },
+  { month: "11 May", accuracy: 73 },
+  { month: "Yesterday", accuracy: 85 },
+  { month: "Today", accuracy: 95 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  accuracy: {
+    label: "accuracy",
     color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
@@ -44,19 +40,18 @@ export default function ChartData() {
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          tickFormatter={(value) => value.slice(0, 3)}
         />
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent hideLabel />}
         />
         <Line
-          dataKey="desktop"
+          dataKey="accuracy"
           type="natural"
-          stroke="var(--color-desktop)"
+          stroke="var(--color-accuracy)"
           strokeWidth={2}
           dot={{
-            fill: "var(--color-desktop)",
+            fill: "var(--color-accuracy)",
           }}
           activeDot={{
             r: 6,
