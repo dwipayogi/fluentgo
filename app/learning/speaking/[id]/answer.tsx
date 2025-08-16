@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Mic } from "lucide-react";
 
 type Props = {
   prompt: string;
@@ -31,13 +32,21 @@ export default function SpeechRecorder({ prompt, currentId, nextId }: Props) {
       const mr = new MediaRecorder(stream, { mimeType: "audio/webm" });
       chunksRef.current = [];
 
-      mr.ondataavailable = async (e) => {
+      mr.ondataavailable = (e) => {
         if (e.data && e.data.size > 0) {
           chunksRef.current.push(e.data);
+        }
+      };
 
-          const formData = new FormData();
-          formData.append("audio", e.data, "chunk.webm");
+      mr.onstop = async () => {
+        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        const url = URL.createObjectURL(blob);
+        setAudioURL(url);
 
+        const formData = new FormData();
+        formData.append("audio", blob, "recording.webm");
+
+        try {
           const res = await fetch("/api/transcribe", {
             method: "POST",
             body: formData,
@@ -45,20 +54,18 @@ export default function SpeechRecorder({ prompt, currentId, nextId }: Props) {
           const data = await res.json();
 
           if (data.text) {
-            setTranscript((prev) => [...prev, data.text]);
+            setTranscript([data.text]);
           }
+        } catch (err) {
+          console.error("Error during transcription:", err);
+          alert("Transcription failed.");
         }
-      };
 
-      mr.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
-        const url = URL.createObjectURL(blob);
-        setAudioURL(url);
         // stop all tracks to free microphone
         stream.getTracks().forEach((t) => t.stop());
       };
 
-      mr.start(3000); // send chunks every 3 seconds
+      mr.start();
       setMediaRecorder(mr);
       setRecording(true);
     } catch (err) {
@@ -94,91 +101,115 @@ export default function SpeechRecorder({ prompt, currentId, nextId }: Props) {
   };
 
   return (
-    <div className="p-4 bg-white rounded shadow w-full">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white font-bold">
-            {" "}
-            🇺🇸
+      <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-2xl shadow-md">
+              🇺🇸
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-gray-800">Speak & Learn</h1>
+              <p className="text-sm text-gray-500">Beginner English</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-medium">English Lessons</p>
-            <p className="text-xs text-gray-500">Beginner</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="text-sm font-medium">300</div>
-          <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold">
-            {" "}
-            🏅
+          <div className="flex items-center gap-2 bg-yellow-100/80 border border-yellow-300 rounded-full px-3 py-1">
+            <span className="text-lg font-bold text-yellow-600">300</span>
+            <span className="text-2xl">🏅</span>
           </div>
         </div>
-      </div>
 
-      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-        <div
-          className="bg-blue-600 h-2 rounded-full"
-          style={{ width: "50%" }}
-        ></div>
-      </div>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div
+            className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-500"
+            style={{ width: "50%" }}
+          ></div>
+        </div>
 
-      <p className="font-medium mb-2">Speak this sentence</p>
-      <div className="italic mb-4">{prompt}</div>
+        <div className="text-center bg-gray-50 rounded-xl p-4">
+          <p className="text-sm font-medium text-gray-600 mb-1">
+            Speak this sentence aloud
+          </p>
+          <p className="text-2xl font-semibold text-indigo-600">
+            &quot;{prompt}&quot;
+          </p>
+        </div>
 
-      <div className="flex justify-center mb-4">
-        <button
-          onClick={startRecording}
-          disabled={recording}
-          className={`px-4 py-2 rounded-full text-white ${
-            recording ? "bg-red-600" : "bg-blue-600"
-          } disabled:opacity-50`}
-        >
-          {recording ? "🎙️ Recording..." : "🎤 Tap to Speak"}
-        </button>
-        {recording && (
+        <div className="flex flex-col items-center justify-center space-y-3 py-4">
           <button
-            onClick={stopRecording}
-            className="px-4 py-2 bg-gray-600 text-white rounded-full ml-2"
+            onClick={recording ? stopRecording : startRecording}
+            className={`relative flex items-center justify-center w-24 h-24 rounded-full transition-all duration-300 ease-in-out
+          ${
+            recording
+              ? "bg-gradient-to-br from-red-500 to-orange-500 shadow-lg"
+              : "bg-indigo-500 shadow-lg"
+          }
+          text-white focus:outline-none focus:ring-4 focus:ring-blue-300/50 disabled:opacity-60`}
           >
-            Stop Recording
+            {recording && (
+              <span className="absolute h-full w-full rounded-full bg-red-400 animate-ping opacity-75"></span>
+            )}
+            <Mic size={32} />
           </button>
-        )}
-      </div>
-
-      {audioURL && (
-        <div className="mb-4">
-          <audio src={audioURL} controls className="w-full" />
+          <p className="text-gray-600 font-medium text-base">
+            {recording ? "Recording..." : "Tap to Speak"}
+          </p>
         </div>
-      )}
 
-      <div className="flex gap-2">
-        {nextId && (
+        {(audioURL || transcript.length > 0) && (
+          <div className="space-y-4 bg-gray-50/80 p-4 rounded-xl border">
+            {audioURL && (
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-1 text-base">
+                  Your recording:
+                </h3>
+                <audio src={audioURL} controls className="w-full" />
+              </div>
+            )}
+
+            {transcript.length > 0 && (
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-1 text-base">
+                  What we heard:
+                </h3>
+                <div className="bg-white text-gray-800 p-3 rounded-lg w-full min-h-[4rem] overflow-y-auto border-2 border-indigo-200">
+                  {transcript.map((line, i) => (
+                    <p key={i} className="text-base">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {score !== null && (
+          <div className="text-center p-4 bg-gradient-to-br from-green-100 to-teal-100 border-2 border-green-400 rounded-2xl shadow-md">
+            <p className="text-base text-gray-700">Your score is</p>
+            <p className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-teal-600">
+              {score}
+              <span className="text-2xl text-gray-500">/100</span>
+            </p>
+          </div>
+        )}
+
+        <div className="flex justify-between items-center pt-4 border-t border-gray-200">
           <button
-            onClick={() => router.push(`/learning/speaking/${nextId}`)}
-            className="px-3 py-1 bg-gray-600 text-white rounded"
+            onClick={handleSubmit}
+            disabled={transcript.length === 0 || score !== null}
+            className="px-6 py-2 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-full font-semibold hover:from-green-600 hover:to-teal-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg"
           >
-            Next
+            Check Score
           </button>
-        )}
-        <button
-          onClick={handleSubmit}
-          className="px-3 py-1 bg-green-600 text-white rounded"
-        >
-          Submit
-        </button>
-      </div>
-
-      <div className="bg-gray-900 text-white p-4 rounded w-full max-w-xl h-64 overflow-y-auto mt-4">
-        {transcript.map((line, i) => (
-          <p key={i}>{line}</p>
-        ))}
-      </div>
-
-      {score !== null && (
-        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
-          Your score is: <span className="font-bold">{score}/100</span>
+          {nextId && (
+            <button
+              onClick={() => router.push(`/learning/speaking/${nextId}`)}
+              className="px-6 py-2 bg-indigo-500 text-white rounded-full font-semibold hover:bg-indigo-600 transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              Next →
+            </button>
+          )}
         </div>
-      )}
-    </div>
+      </div>
   );
 }
