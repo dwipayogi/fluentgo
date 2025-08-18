@@ -1,27 +1,35 @@
+import { getQuestionByNumber, getTotalQuestions, getQuestionPosition } from "@/actions/learn-action";
 import SpeechRecorder from "./answer";
-import { speakingQuestion } from "@/data/speaking";
-import { notFound } from "next/navigation";
 
-export function generateStaticParams() {
-  return speakingQuestion.map((q) => ({ id: q.id.toString() }));
-}
+type Props = {
+  params: { id: string };
+};
 
-export default function SpeakingPage({ params }: { params: { id: string } }) {
-  const id = parseInt(params.id, 10);
-  const item = speakingQuestion.find((q) => q.id === id);
+export default async function Page({ params }: Props) {
+  const number = Number(params.id);
+  const question = await getQuestionByNumber("speaking", number);
 
-  if (!item) notFound();
+  if (!question) {
+    return <div className="p-6">Question not found.</div>;
+  }
 
-  const currentIndex = speakingQuestion.findIndex((q) => q.id === id);
-  const nextItem = speakingQuestion[currentIndex + 1] ?? null;
+  const total = await getTotalQuestions("speaking");
+  const position = await getQuestionPosition("speaking", number);
+
+  // compute next question number
+  const nextPosition = position + 1;
+  const nextNumber = nextPosition < total ? number + 1 : null;
 
   return (
-    <main className="flex items-center justify-center flex-col h-screen max-w-7xl mx-auto">
-        <SpeechRecorder
-          prompt={item.answer}
-          currentId={item.id}
-          nextId={nextItem ? nextItem.id : null}
-        />
-    </main>
+    <div className="p-6">
+      <SpeechRecorder
+        prompt={question.text}
+        currentNumber={question.number}
+        nextNumber={nextNumber}
+        difficulty={question.difficulty}
+        totalQuestions={total}
+        position={position}
+      />
+    </div>
   );
 }

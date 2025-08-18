@@ -79,3 +79,65 @@ export async function getUserQuestionHistory(
     throw new Error("Failed to fetch question history");
   }
 }
+
+export async function getQuestionByNumber(
+  type: "listening" | "speaking",
+  number: number
+) {
+  try {
+    const result = await sql`
+      SELECT q.*, d.name AS difficulty
+      FROM questions q
+      INNER JOIN categories c ON q.cat_id = c.id
+      INNER JOIN difficulties d ON q.difficulty_id = d.id
+      WHERE c.name = ${type}
+      AND q.number = ${number}
+      LIMIT 1
+    `;
+
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("Error fetching question by number:", error);
+    throw new Error("Failed to fetch question by number");
+  }
+}
+
+export async function getTotalQuestions(type: "listening" | "speaking") {
+  try {
+    const result = await sql`
+      SELECT COUNT(*) AS total
+      FROM questions q
+      INNER JOIN categories c ON q.cat_id = c.id
+      WHERE c.name = ${type}
+    `;
+
+    // sql library may return count as string/BigInt depending on driver
+    const total = result[0]?.total ?? 0;
+    return Number(total);
+  } catch (error) {
+    console.error("Error fetching total questions:", error);
+    throw new Error("Failed to fetch total questions");
+  }
+}
+
+export async function getQuestionPosition(
+  type: "listening" | "speaking",
+  number: number
+) {
+  try {
+    const result = await sql`
+      SELECT COUNT(*) AS position
+      FROM questions q
+      INNER JOIN categories c ON q.cat_id = c.id
+      WHERE c.name = ${type}
+      AND q.number <= ${number}
+    `;
+
+    const position = result[0]?.position ?? 0;
+    // convert to zero-based index
+    return Math.max(0, Number(position) - 1);
+  } catch (error) {
+    console.error("Error fetching question position:", error);
+    throw new Error("Failed to fetch question position");
+  }
+}

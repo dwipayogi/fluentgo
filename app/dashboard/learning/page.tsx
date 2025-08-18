@@ -2,6 +2,7 @@ import Link from "next/link";
 import { GraduationCap, Mic, Book, ChevronRight } from "lucide-react";
 import { getNextUnansweredQuestion } from "@/actions/learn-action";
 import { getUserFromCookie } from "@/lib/auth";
+import { getUserPoint } from "@/actions/user-actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,6 +25,11 @@ export default async function Learning() {
     "speaking"
   );
 
+  const userData = await getUserPoint(Number(user?.id));
+  const speakingPoints = userData?.speaking_point ?? 0;
+  const listeningPoints = userData?.listening_point ?? 0;
+  const totalPoints = speakingPoints + listeningPoints;
+
   return (
     <main>
       {/* Points Summary */}
@@ -35,7 +41,9 @@ export default async function Learning() {
           <CardContent>
             <div className="flex items-center">
               <GraduationCap className="h-8 w-8 mr-3 text-indigo-500" />
-              <div className="text-3xl font-bold text-indigo-500">2,450</div>
+              <div className="text-3xl font-bold text-indigo-500">
+                {totalPoints}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -47,7 +55,9 @@ export default async function Learning() {
           <CardContent>
             <div className="flex items-center">
               <Mic className="h-8 w-8  mr-3 text-indigo-500" />
-              <div className="text-3xl font-bold text-indigo-500">1,280</div>
+              <div className="text-3xl font-bold text-indigo-500">
+                {speakingPoints}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -59,7 +69,9 @@ export default async function Learning() {
           <CardContent>
             <div className="flex items-center">
               <Book className="h-8 w-8  mr-3 text-indigo-500" />
-              <div className="text-3xl font-bold text-indigo-500">1,170</div>
+              <div className="text-3xl font-bold text-indigo-500">
+                {listeningPoints}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -109,14 +121,20 @@ export default async function Learning() {
                 </div>
               </div>
               <div className="mt-3 flex justify-between items-center">
-                <Link href={`/learning/speaking/${speakingQuestion?.id}`}>
-                  <Button
-                    size="sm"
-                    className="bg-indigo-500 hover:bg-indigo-400"
-                  >
-                    Start Practice
+                {speakingQuestion ? (
+                  <Link href={`/learning/speaking/${speakingQuestion.number}`}>
+                    <Button
+                      size="sm"
+                      className="bg-indigo-500 hover:bg-indigo-400"
+                    >
+                      Start Practice
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button size="sm" disabled className="opacity-50">
+                    No Questions
                   </Button>
-                </Link>
+                )}
               </div>
             </div>
 
@@ -127,41 +145,49 @@ export default async function Learning() {
                   <div className="text-sm  mt-1">Test Description</div>
                 </div>
                 <div>
-                  {speakingQuestion?.difficulty === "Easy" && (
+                  {listeningQuestion?.difficulty === "Easy" && (
                     <Badge
                       variant="outline"
                       className="bg-green-100 dark:bg-zinc-800 border-green-500 text-green-500"
                     >
-                      {speakingQuestion?.difficulty}
+                      {listeningQuestion?.difficulty}
                     </Badge>
                   )}
-                  {speakingQuestion?.difficulty === "Medium" && (
+                  {listeningQuestion?.difficulty === "Medium" && (
                     <Badge
                       variant="outline"
                       className="bg-orange-100 dark:bg-zinc-800 border-orange-500 text-orange-500"
                     >
-                      {speakingQuestion?.difficulty}
+                      {listeningQuestion?.difficulty}
                     </Badge>
                   )}
-                  {speakingQuestion?.difficulty === "Hard" && (
+                  {listeningQuestion?.difficulty === "Hard" && (
                     <Badge
                       variant="outline"
                       className="bg-red-100 dark:bg-zinc-800 border-red-500 text-red-500"
                     >
-                      {speakingQuestion?.difficulty}
+                      {listeningQuestion?.difficulty}
                     </Badge>
                   )}
                 </div>
               </div>
               <div className="mt-3 flex justify-between items-center">
-                <Link href={`/learning/listening/${listeningQuestion?.id}`}>
-                  <Button
-                    size="sm"
-                    className="bg-indigo-500 hover:bg-indigo-400"
+                {listeningQuestion ? (
+                  <Link
+                    href={`/learning/listening/${listeningQuestion.number}`}
                   >
-                    Start Practice
+                    <Button
+                      size="sm"
+                      className="bg-indigo-500 hover:bg-indigo-400"
+                    >
+                      Start Practice
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button size="sm" disabled className="opacity-50">
+                    No Questions
                   </Button>
-                </Link>
+                )}
               </div>
             </div>
           </div>
