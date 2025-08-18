@@ -4,9 +4,11 @@ import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mic } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { updateUserSpeakingPoints } from "@/actions/user-actions";
 
 type Props = {
   prompt: string;
+  user_id: string | null;
   currentNumber: number;
   nextNumber: number | null;
   difficulty: string;
@@ -16,7 +18,7 @@ type Props = {
 
 export default function SpeechRecorder({
   prompt,
-  currentNumber,
+  user_id,
   nextNumber,
   difficulty,
   totalQuestions,
@@ -77,7 +79,9 @@ export default function SpeechRecorder({
           const data = await res.json();
 
           if (data.text) {
-            setTranscript([data.text]);
+            // remove trailing dots and trim whitespace
+            const cleaned = data.text.trim().replace(/\.+$/, "");
+            setTranscript([cleaned]);
           }
         } catch (err) {
           console.error("Error during transcription:", err);
@@ -118,44 +122,76 @@ export default function SpeechRecorder({
     return Math.min(100, Math.round((correctWords / totalWords) * 100));
   };
 
-  const handleSubmit = () => {
+  const dateNow = new Date();
+
+  const handleSubmit = async () => {
     const calculatedScore = calculateScore(transcript, prompt);
     setScore(calculatedScore);
+
+    // Save totalScore to localStorage for accumulation
+    const currentTotal = parseInt(localStorage.getItem("totalScore") || "0");
+    const newTotal = currentTotal + calculatedScore;
+    localStorage.setItem("totalScore", newTotal.toString());
+  };
+
+  const saveFinalkScoreToServer = async () => {
+    if (!user_id) return;
+
+    const totalScore = parseInt(localStorage.getItem("totalScore") || "0");
+
+    if (totalScore > 0) {
+      try {
+        await updateUserSpeakingPoints(parseInt(user_id), totalScore, dateNow);
+        console.log("Total score saved successfully:", totalScore);
+        // Clear localStorage after successful save
+        localStorage.removeItem("totalScore");
+      } catch (error) {
+        console.error("Error saving total score to server:", error);
+      }
+    }
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 space-y-4">
+    <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 space-y-4 dark:bg-gray-900/80 dark:text-gray-100">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-2xl shadow-md">
             🇺🇸
           </div>
           <div>
-            <h1 className="text-lg font-bold text-gray-800">Speak & Learn</h1>
-            <p className="text-sm text-gray-500">Beginner English</p>
+            <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+              Speak & Learn
+            </h1>
+            <p className="text-sm text-gray-500 dark:text-gray-300">
+              Beginner English
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-yellow-100/80 border border-yellow-300 rounded-full px-3 py-1">
-          <span className="text-lg font-bold text-yellow-600">300</span>
+        <div className="flex items-center gap-2 bg-yellow-100/80 border border-yellow-300 rounded-full px-3 py-1 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300">
+          <span className="text-lg font-bold text-yellow-600 dark:text-yellow-300">
+            300
+          </span>
           <span className="text-2xl">🏅</span>
         </div>
       </div>
 
-      <div className="w-full bg-gray-200 rounded-full h-2">
+      <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
         <div
           className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-500"
           style={{ width: `${progress}%` }}
         ></div>
       </div>
 
-      <div className="text-center bg-gray-50 rounded-xl p-4">
-        <p className="text-sm font-medium text-gray-600 mb-1">
+      <div className="text-center bg-gray-50 rounded-xl p-4 dark:bg-gray-800/60 dark:border dark:border-gray-700">
+        <p className="text-sm font-medium text-gray-600 mb-1 dark:text-gray-300">
           Speak this sentence aloud
         </p>
         <div className="my-3">
-          <Badge className={difficultyClass}>{difficultyLabel}</Badge>
+          <Badge className={`${difficultyClass} dark:border-none`}>
+            {difficultyLabel}
+          </Badge>
         </div>
-        <p className="text-2xl font-semibold text-indigo-600">
+        <p className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300">
           &quot;{prompt}&quot;
         </p>
       </div>
@@ -182,10 +218,10 @@ export default function SpeechRecorder({
       </div>
 
       {(audioURL || transcript.length > 0) && (
-        <div className="space-y-4 bg-gray-50/80 p-4 rounded-xl border">
+        <div className="space-y-4 bg-gray-50/80 p-4 rounded-xl border dark:bg-gray-800/60 dark:border-gray-700">
           {audioURL && (
             <div>
-              <h3 className="font-semibold text-gray-800 mb-1 text-base">
+              <h3 className="font-semibold text-gray-800 mb-1 text-base dark:text-gray-100">
                 Your recording:
               </h3>
               <audio src={audioURL} controls className="w-full" />
@@ -194,10 +230,10 @@ export default function SpeechRecorder({
 
           {transcript.length > 0 && (
             <div>
-              <h3 className="font-semibold text-gray-800 mb-1 text-base">
+              <h3 className="font-semibold text-gray-800 mb-1 text-base dark:text-gray-100">
                 What we heard:
               </h3>
-              <div className="bg-white text-gray-800 p-3 rounded-lg w-full min-h-[4rem] overflow-y-auto border-2 border-indigo-200">
+              <div className="bg-white text-gray-800 p-3 rounded-lg w-full min-h-[4rem] overflow-y-auto border-2 border-indigo-200 dark:bg-gray-900 dark:text-gray-100 dark:border-indigo-700">
                 {transcript.map((line, i) => (
                   <p key={i} className="text-base">
                     {line}
@@ -210,32 +246,44 @@ export default function SpeechRecorder({
       )}
 
       {score !== null && (
-        <div className="text-center p-4 bg-gradient-to-br from-green-100 to-teal-100 border-2 border-green-400 rounded-2xl shadow-md">
-          <p className="text-base text-gray-700">Your score is</p>
+        <div className="text-center p-4 bg-gradient-to-br from-green-100 to-teal-100 border-2 border-green-400 rounded-2xl shadow-md dark:from-green-900 dark:to-teal-900 dark:border-green-700">
+          <p className="text-base text-gray-700 dark:text-gray-200">
+            Your score is
+          </p>
           <p className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-teal-600">
             {score}
-            <span className="text-2xl text-gray-500">/100</span>
+            <span className="text-2xl text-gray-500 dark:text-gray-300">
+              /100
+            </span>
           </p>
         </div>
       )}
 
-      <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+      <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-700">
         <button
           onClick={handleSubmit}
           disabled={transcript.length === 0 || score !== null}
-          className="px-6 py-2 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-full font-semibold hover:from-green-600 hover:to-teal-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer"
+          className="px-6 py-2 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-full font-semibold hover:from-green-600 hover:to-teal-600 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer dark:bg-gradient-to-r dark:from-green-600 dark:to-teal-600"
         >
           Check Score
         </button>
         <button
-          onClick={() => {
+          onClick={async () => {
+            if (score === null) return; // guard if somehow clicked
             if (nextNumber) {
               router.push(`/learning/speaking/${nextNumber}`);
             } else {
+              // Save total score when finishing all questions
+              await saveFinalkScoreToServer();
               router.push(`/dashboard/learning`);
             }
           }}
-          className="px-6 py-2 bg-indigo-500 text-white rounded-full font-semibold hover:bg-indigo-600 transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer"
+          disabled={score === null}
+          className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer dark:bg-indigo-600 ${
+            score === null
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed hover:shadow-none"
+              : "bg-indigo-500 text-white hover:bg-indigo-600"
+          }`}
         >
           {nextNumber ? "Next →" : "Finish"}
         </button>
