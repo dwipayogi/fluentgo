@@ -111,17 +111,17 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ audioPath }) => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-8">
-      <div className="flex items-center gap-5 h-80">
+    <div className="flex flex-col items-center">
+      <div className="flex items-center gap-5 h-48">
         {audioData.map((value, index) => (
           <motion.div
             key={index}
             className="bg-indigo-500"
-            initial={{ borderRadius: 50, width: 50, height: 50 }}
+            initial={{ borderRadius: 50, width: 32, height: 32 }}
             animate={{
-              borderRadius: isPlaying ? 25 : 50,
-              width: isPlaying ? 50 : 50,
-              height: isPlaying ? 50 + value * 200 : 50,
+              borderRadius: isPlaying ? 25 : 32,
+              width: isPlaying ? 32 : 32,
+              height: isPlaying ? 32 + value * 200 : 32,
             }}
             transition={{
               type: "spring",

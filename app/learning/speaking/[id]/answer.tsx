@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Mic } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { updateUserSpeakingPoints } from "@/actions/user-actions";
+import { saveUserAnswer } from "@/actions/learn-action";
 
 type Props = {
   prompt: string;
@@ -14,6 +15,7 @@ type Props = {
   difficulty: string;
   totalQuestions: number;
   position: number; // zero-based position
+  questionId: number; // Add question ID
 };
 
 export default function SpeechRecorder({
@@ -23,6 +25,7 @@ export default function SpeechRecorder({
   difficulty,
   totalQuestions,
   position,
+  questionId,
 }: Props) {
   const [recording, setRecording] = useState(false);
   const [audioURL, setAudioURL] = useState<string | null>(null);
@@ -127,6 +130,21 @@ export default function SpeechRecorder({
   const handleSubmit = async () => {
     const calculatedScore = calculateScore(transcript, prompt);
     setScore(calculatedScore);
+
+    // Save individual answer to database
+    if (user_id && questionId) {
+      try {
+        await saveUserAnswer(
+          parseInt(user_id),
+          questionId,
+          calculatedScore,
+          calculatedScore // using score as points for now
+        );
+        console.log("Answer saved successfully");
+      } catch (error) {
+        console.error("Error saving answer:", error);
+      }
+    }
 
     // Save totalScore to localStorage for accumulation
     const currentTotal = parseInt(localStorage.getItem("totalScore") || "0");

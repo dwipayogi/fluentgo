@@ -1,5 +1,9 @@
-import { getQuestionByNumber, getTotalQuestions, getQuestionPosition } from "@/actions/learn-action";
-import { getUserFromCookie } from '@/lib/auth'
+import {
+  getQuestionByNumber,
+  getTotalQuestions,
+  getQuestionPosition,
+} from "@/actions/learn-action";
+import { getUserFromCookie } from "@/lib/auth";
 
 import SpeechRecorder from "./answer";
 
@@ -33,6 +37,7 @@ export default async function Page({ params }: Props) {
         difficulty={question.difficulty}
         totalQuestions={total}
         position={position}
+        questionId={question.id}
       />
     </div>
   );

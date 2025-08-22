@@ -141,3 +141,34 @@ export async function getQuestionPosition(
     throw new Error("Failed to fetch question position");
   }
 }
+
+export async function saveUserAnswer(
+  userId: number,
+  questionId: number,
+  accuracy: number,
+  point: number
+) {
+  try {
+    // Check if user already answered this question
+    const existingAnswer = await sql`
+      SELECT id FROM user_answers 
+      WHERE user_id = ${userId} AND question_id = ${questionId}
+    `;
+
+    if (existingAnswer.length > 0) {
+      throw new Error("User has already answered this question");
+    }
+
+    // Insert the answer
+    const result = await sql`
+      INSERT INTO user_answers (user_id, question_id, accuracy, point)
+      VALUES (${userId}, ${questionId}, ${accuracy}, ${point})
+      RETURNING *
+    `;
+
+    return result[0];
+  } catch (error) {
+    console.error("Error saving user answer:", error);
+    throw new Error("Failed to save user answer");
+  }
+}
