@@ -172,3 +172,57 @@ export async function saveUserAnswer(
     throw new Error("Failed to save user answer");
   }
 }
+
+export async function getDailyAccuracy(userId: number, days: number = 5) {
+  try {
+    // Calculate date threshold in JavaScript
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - (days - 1));
+    startDate.setHours(0, 0, 0, 0); // Start of day
+
+    const result = await sql`
+      SELECT 
+        DATE(created_at) as date,
+        ROUND(AVG(accuracy::numeric), 0) as avg_accuracy,
+        COUNT(*) as total_answers
+      FROM user_answers 
+      WHERE user_id = ${userId}
+        AND created_at >= ${startDate.toISOString()}
+      GROUP BY DATE(created_at)
+      ORDER BY date DESC
+    `;
+
+    return result;
+  } catch (error) {
+    console.error("Error fetching daily accuracy:", error);
+    throw new Error("Failed to fetch daily accuracy");
+  }
+}
+
+export async function getUserAccuracyStats(userId: number) {
+  try {
+    const result = await sql`
+      SELECT 
+        COUNT(*) as total_questions,
+        ROUND(AVG(accuracy::numeric), 2) as overall_accuracy,
+        MIN(accuracy) as min_accuracy,
+        MAX(accuracy) as max_accuracy,
+        SUM(point) as total_points
+      FROM user_answers 
+      WHERE user_id = ${userId}
+    `;
+
+    return (
+      result[0] || {
+        total_questions: 0,
+        overall_accuracy: 0,
+        min_accuracy: 0,
+        max_accuracy: 0,
+        total_points: 0,
+      }
+    );
+  } catch (error) {
+    console.error("Error fetching user accuracy stats:", error);
+    throw new Error("Failed to fetch accuracy stats");
+  }
+}

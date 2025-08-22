@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import RoomInput from "@/components/dashboard/room-input";
 import ChartData from "@/components/dashboard/chartData";
+import AccuracySummary from "@/components/dashboard/accuracy-summary";
 import Link from "next/link";
 
 export default async function SectionCards() {
@@ -36,9 +37,11 @@ export default async function SectionCards() {
                   <div className="text-xs mb-1">Total Points</div>
                   <div className="text-2xl font-bold">{totalPoints}</div>
                 </div>
-                <div className="rounded-lg border p-4">
+                <div className="rounded-lg border p-4 flex flex-col justify-between">
                   <div className="text-xs mb-1">Speaking Points</div>
-                  <div className="text-2xl font-bold mb-2">{speakingPoints}</div>
+                  <div className="text-2xl font-bold mb-2">
+                    {speakingPoints}
+                  </div>
                   <Link href="/dashboard/learning">
                     <Button className="bg-indigo-500 hover:bg-indigo-400 w-fit">
                       Continue Learning
@@ -48,7 +51,9 @@ export default async function SectionCards() {
                 <div className="rounded-lg border p-4 flex flex-col justify-between">
                   <div>
                     <div className="text-xs mb-1">Listening Points</div>
-                    <div className="text-2xl font-bold mb-2">{listeningPoints}</div>
+                    <div className="text-2xl font-bold mb-2">
+                      {listeningPoints}
+                    </div>
                   </div>
                   <Link href="/dashboard/learning">
                     <Button className="bg-indigo-500 hover:bg-indigo-400 w-fit">
@@ -58,9 +63,11 @@ export default async function SectionCards() {
                 </div>
               </div>
               <div className="rounded-lg border p-4">
-                <div className="text-xs mb-1">Pronunciation</div>
-                <div className="text-2xl font-bold">87% accuracy</div>
-                <ChartData />
+                <div className="text-xs mb-1">Learning Progress</div>
+                <AccuracySummary userId={Number(user?.id)} />
+                <div className="mt-3">
+                  <ChartData userId={Number(user?.id)} />
+                </div>
               </div>
             </div>
           </div>
