@@ -1,7 +1,17 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import AudioVisualizer from "@/components/AudioVisualizer";
 import { updateUserListeningPoints } from "@/actions/user-actions";
 import { saveUserAnswer } from "@/actions/learn-action";
@@ -32,6 +42,7 @@ export default function ListeningQuiz({
   const [answer, setAnswer] = useState("");
   const [score, setScore] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [showExitModal, setShowExitModal] = useState(false);
   const router = useRouter();
 
   // derive difficulty and badge classes from props
@@ -116,6 +127,11 @@ export default function ListeningQuiz({
     }
   };
 
+  const handleExit = async () => {
+    await saveFinalkScoreToServer();
+    router.push("/dashboard");
+  };
+
   const handleNext = () => {
     if (nextId) {
       router.push(`/learning/listening/${nextId}`);
@@ -142,11 +158,43 @@ export default function ListeningQuiz({
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-yellow-100/80 border border-yellow-300 rounded-full px-3 py-1 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300">
-          <span className="text-lg font-bold text-yellow-600 dark:text-yellow-300">
-            300
-          </span>
-          <span className="text-2xl">🏅</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-yellow-100/80 border border-yellow-300 rounded-full px-3 py-1 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300">
+            <span className="text-lg font-bold text-yellow-600 dark:text-yellow-300">
+              300
+            </span>
+            <span className="text-2xl">🏅</span>
+          </div>
+          <Dialog open={showExitModal} onOpenChange={setShowExitModal}>
+            <DialogTrigger asChild>
+              <button className="w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors duration-200 shadow-md">
+                <X size={20} />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Exit Quiz?</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to exit the quiz? Your progress will be
+                  saved and you will return to the dashboard.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <button
+                  onClick={() => setShowExitModal(false)}
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleExit}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors duration-200"
+                >
+                  Yes, Exit
+                </button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 

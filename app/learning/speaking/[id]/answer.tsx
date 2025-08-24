@@ -2,8 +2,17 @@
 
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Mic } from "lucide-react";
+import { Mic, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { updateUserSpeakingPoints } from "@/actions/user-actions";
 import { saveUserAnswer } from "@/actions/learn-action";
 
@@ -34,6 +43,7 @@ export default function SpeechRecorder({
   );
   const [transcript, setTranscript] = useState<string[]>([]);
   const [score, setScore] = useState<number | null>(null);
+  const [showExitModal, setShowExitModal] = useState(false);
   const chunksRef = useRef<Blob[]>([]);
   const router = useRouter();
 
@@ -169,6 +179,11 @@ export default function SpeechRecorder({
     }
   };
 
+  const handleExit = async () => {
+    await saveFinalkScoreToServer();
+    router.push("/dashboard");
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 space-y-4 dark:bg-gray-900/80 dark:text-gray-100">
       <div className="flex items-center justify-between">
@@ -185,11 +200,43 @@ export default function SpeechRecorder({
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-yellow-100/80 border border-yellow-300 rounded-full px-3 py-1 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300">
-          <span className="text-lg font-bold text-yellow-600 dark:text-yellow-300">
-            300
-          </span>
-          <span className="text-2xl">🏅</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-yellow-100/80 border border-yellow-300 rounded-full px-3 py-1 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300">
+            <span className="text-lg font-bold text-yellow-600 dark:text-yellow-300">
+              300
+            </span>
+            <span className="text-2xl">🏅</span>
+          </div>
+          <Dialog open={showExitModal} onOpenChange={setShowExitModal}>
+            <DialogTrigger asChild>
+              <button className="w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors duration-200 shadow-md">
+                <X size={20} />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Exit Quiz?</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to exit the quiz? Your progress will be
+                  saved and you will return to the dashboard.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <button
+                  onClick={() => setShowExitModal(false)}
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleExit}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors duration-200"
+                >
+                  Yes, Exit
+                </button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
