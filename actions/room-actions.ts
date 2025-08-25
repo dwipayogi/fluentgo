@@ -22,8 +22,10 @@ export async function getRooms() {
 }
 
 export async function createRoom(data: Room) {
-  const { user_id, name, description, started_at, ended_at } = data;
-  await sql`INSERT INTO rooms (name, description, user_id, started_at, ended_at) VALUES (${name}, ${description}, ${user_id}, ${started_at}, ${ended_at})`;
+  const { user_id, name, description, password, started_at, ended_at } = data;
+  await sql`INSERT INTO rooms (name, description, password, user_id, started_at, ended_at) VALUES (${name}, ${description}, ${
+    password || null
+  }, ${user_id}, ${started_at}, ${ended_at})`;
   revalidatePath("/rooms");
   revalidatePath("/dashboard/conference");
   return redirect(`/rooms/${name}`);

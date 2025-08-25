@@ -6,22 +6,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Calendar, Clock } from "lucide-react";
 import { getRooms, joinRoom } from "@/actions/room-actions";
 import CreateMeet from "@/components/conference/create-meet";
+import JoinMeetingButton from "@/components/conference/join-meeting-button";
 
 export default async function ConferencePage() {
   const rooms = await getRooms();
-
-  async function handleJoinRoom({
-    name,
-    password,
-  }: {
-    name: string;
-    password: string;
-  }) {
-    await joinRoom(name, password);
-  }
 
   return (
     <main>
@@ -48,6 +50,9 @@ export default async function ConferencePage() {
             });
           };
 
+          // Check if room has password (assuming password field exists in room object)
+          const hasPassword = Boolean(room.password);
+
           return (
             <Card key={room.id}>
               <CardHeader>
@@ -71,9 +76,10 @@ export default async function ConferencePage() {
                   <div className="flex items-center">
                     <span>Focus: {room.description}</span>
                   </div>
-                  <Button className="w-full bg-indigo-500 hover:bg-indigo-400">
-                    Join Meeting
-                  </Button>
+                  <JoinMeetingButton 
+                    roomName={room.name} 
+                    hasPassword={hasPassword}
+                  />
                 </div>
               </CardContent>
             </Card>

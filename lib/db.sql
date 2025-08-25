@@ -30,6 +30,7 @@ CREATE TABLE "rooms" (
   "user_id" int NOT NULL REFERENCES "users" ("id"),
   "name" varchar(100) NOT NULL UNIQUE,
   "description" varchar(500),
+  "password" varchar(100),
   "created_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "started_at" timestamp,
   "ended_at" timestamp

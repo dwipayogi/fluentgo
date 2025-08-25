@@ -1,7 +1,12 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import sql from "@/lib/db";
-import { validateEmail, validateUsername, validatePassword, sanitizeInput } from "@/lib/settings-utils";
+import {
+  validateEmail,
+  validateUsername,
+  validatePassword,
+  sanitizeInput,
+} from "@/lib/settings-utils";
 import bcrypt from "bcryptjs";
 
 export async function getUserPoint(userId: number) {
@@ -59,7 +64,11 @@ export async function updateUserProfile(
 
     // Validate inputs
     if (!validateUsername(cleanUsername)) {
-      return { success: false, error: "Username must be 3-30 characters long and contain only letters, numbers, and underscores" };
+      return {
+        success: false,
+        error:
+          "Username must be 3-30 characters long and contain only letters, numbers, and underscores",
+      };
     }
 
     if (!validateEmail(cleanEmail)) {
@@ -89,6 +98,7 @@ export async function updateUserProfile(
     `;
 
     revalidatePath("/dashboard/settings");
+    revalidatePath("/dashboard");
     return { success: true, message: "Profile updated successfully" };
   } catch (error) {
     console.error("Error updating profile:", error);
@@ -107,18 +117,21 @@ export async function updateUserPassword(
     if (!passwordValidation.isValid) {
       return { success: false, error: passwordValidation.errors.join(", ") };
     }
-    
+
     // Get current password hash
     const userResult = await sql`
       SELECT password FROM users WHERE id = ${userId}
     `;
-    
+
     if (userResult.length === 0) {
       return { success: false, error: "User not found" };
     }
 
     // Verify current password
-    const isValidPassword = await bcrypt.compare(currentPassword, userResult[0].password);
+    const isValidPassword = await bcrypt.compare(
+      currentPassword,
+      userResult[0].password
+    );
     if (!isValidPassword) {
       return { success: false, error: "Current password is incorrect" };
     }
@@ -146,12 +159,14 @@ export async function deleteUserAccount(userId: number) {
   try {
     // Delete user answers first (foreign key constraint)
     await sql`DELETE FROM user_answers WHERE user_id = ${userId}`;
-    
+
     // Delete user rooms
     await sql`DELETE FROM rooms WHERE user_id = ${userId}`;
-    
+
     // Delete user account
     await sql`DELETE FROM users WHERE id = ${userId}`;
+
+    revalidatePath("/dashboard/leaderboard");
 
     return { success: true, message: "Account deleted successfully" };
   } catch (error) {
@@ -166,11 +181,11 @@ export async function getUserById(userId: number) {
       SELECT id, username, email, listening_point, speaking_point, created_at, updated_at 
       FROM users WHERE id = ${userId}
     `;
-    
+
     if (result.length === 0) {
       return { success: false, error: "User not found" };
     }
-    
+
     return { success: true, user: result[0] };
   } catch (error) {
     console.error("Error fetching user:", error);
@@ -216,9 +231,11 @@ export async function exportUserData(userId: number) {
       exportDate: new Date().toISOString(),
       totalAnswers: answersResult.length,
       totalRooms: roomsResult.length,
-      averageAccuracy: answersResult.length > 0 
-        ? answersResult.reduce((sum, answer) => sum + answer.accuracy, 0) / answersResult.length 
-        : 0
+      averageAccuracy:
+        answersResult.length > 0
+          ? answersResult.reduce((sum, answer) => sum + answer.accuracy, 0) /
+            answersResult.length
+          : 0,
     };
 
     return { success: true, data: exportData };

@@ -1,6 +1,7 @@
 "use server";
 
 import sql from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function getNextUnansweredQuestion(
   userId: number,
@@ -165,6 +166,9 @@ export async function saveUserAnswer(
       VALUES (${userId}, ${questionId}, ${accuracy}, ${point})
       RETURNING *
     `;
+
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/leaderboard");
 
     return result[0];
   } catch (error) {
